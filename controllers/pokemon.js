@@ -2,32 +2,32 @@ const mongodb = require('../data/database');
 const ObjectId = require('mongodb').ObjectId;
 
 
-const getAll = async (req, res) => {
-    //#swagger.tags=['Pokemon']
-    const result = await mongodb.getDatabase().db().collection('pokemon').find()
-    .toArray((err, lists) => {
+const getAll = (req, res) => {
+    //#swagger.tags=['Pokemon']  
+      const result = mongodb.getDatabase().db().collection('pokemon').find();
+      result.toArray().then((err, pokemon) => {
         if (err) {
-            res.status(400).json({ message: err });    
-        }
-        res.setHeader('Content-Type', 'application/json');
-        res.status(200).json(pokemon);
-    });
+            res.status(400).json({ message: err });
+          }
+          res.setHeader('Content-Type', 'application/json');
+          res.status(200).json(pokemon);
+      });
 };
 
-const getSingle = async (req, res) => {
+const getSingle = (req, res) => {
     //#swagger.tags=['Pokemon']
     if (!ObjectId.isValid(req.params.id)) {
         res.status(400).json('Must use a valid pokemon id to find a pokemon.');
     }
     const pokemonId = new ObjectId(req.params.id);
-    const result = await mongodb.getDatabase().db().collection('pokemon').find({ _id: pokemonId })
-    .toArray((err, lists) => {
+    const result = mongodb.getDatabase().db().collection('pokemon').find({ _id: pokemonId });
+    result.toArray().then((err, pokemon) => {
         if (err) {
-            res.status(400).json({ message: err });    
-        }
-        res.setHeader('Content-Type', 'application/json');
-        res.status(200).json(pokemon[0]);
-    });
+            res.status(400).json({ message: err });
+          }
+          res.setHeader('Content-Type', 'application/json');
+          res.status(200).json(pokemon[0]);
+      });
 };
 
 const createPokemon = async (req, res) => {
