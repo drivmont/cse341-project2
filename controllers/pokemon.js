@@ -16,6 +16,9 @@ const getAll = async (req, res) => {
 
 const getSingle = async (req, res) => {
     //#swagger.tags=['Pokemon']
+    if (!ObjectId.isValid(req.params.id)) {
+        res.status(400).json('Must use a valid pokemon id to find a pokemon.');
+    }
     const pokemonId = new ObjectId(req.params.id);
     const result = await mongodb.getDatabase().db().collection('pokemon').find({ _id: pokemonId })
     .toArray((err, lists) => {
@@ -50,6 +53,9 @@ const createPokemon = async (req, res) => {
 
 const updatePokemon = async (req, res) => {
     //#swagger.tags=['Pokemon']
+    if (!ObjectId.isValid(req.params.id)) {
+        res.status(400).json('Must use a valid pokemon id to find a pokemon.');
+    }
     const pokemonId = new ObjectId(req.params.id);
     const pokemon = {
         color: req.body.color,
@@ -71,6 +77,9 @@ const updatePokemon = async (req, res) => {
 
 const deletePokemon = async (req, res) => {
     //#swagger.tags=['Pokemon']
+    if (!ObjectId.isValid(req.params.id)) {
+        res.status(400).json('Must use a valid pokemon id to find a pokemon.');
+    }
     const pokemonId = new ObjectId(req.params.id);
     const response = await mongodb.getDatabase().db().collection('pokemon').deleteOne({ _id: pokemonId});
     if (response.deletedCount > 0) {

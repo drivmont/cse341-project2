@@ -16,6 +16,9 @@ const getAll = async (req, res) => {
 
 const getSingle = async (req, res) => {
     //#swagger.tags=['Trainer']
+    if (!ObjectId.isValid(req.params.id)) {
+        res.status(400).json('Must use a valid trainer id to find a trainer.');
+    }
     const trainerId = new ObjectId(req.params.id);
     const result = await mongodb.getDatabase().db().collection('trainer').find({ _id: trainerId })
     .toArray((err, lists) => {
@@ -46,6 +49,9 @@ const createTrainer = async (req, res) => {
 
 const updateTrainer = async (req, res) => {
     //#swagger.tags=['Trainer']
+    if (!ObjectId.isValid(req.params.id)) {
+        res.status(400).json('Must use a valid trainer id to find a trainer.');
+    }
     const trainerId = new ObjectId(req.params.id);
     const trainer = {
         badges: req.body.badges,
@@ -64,6 +70,9 @@ const updateTrainer = async (req, res) => {
 
 const deleteTrainer = async (req, res) => {
     //#swagger.tags=['Trainer']
+    if (!ObjectId.isValid(req.params.id)) {
+        res.status(400).json('Must use a valid trainer id to find a trainer.');
+    }
     const trainerId = new ObjectId(req.params.id);
     const response = await mongodb.getDatabase().db().collection('trainer').deleteOne({ _id: trainerId});
     if (response.deletedCount > 0) {

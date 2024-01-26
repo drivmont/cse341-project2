@@ -7,9 +7,9 @@ router.get('/', trainerController.getAll);
 
 router.get('/:id', trainerController.getSingle);
 
-router.post('/', trainerController.createTrainer);
+router.post('/', validation.saveTrainer, trainerController.createTrainer);
 
-router.put('/:id', trainerController.updateTrainer);
+router.put('/:id', validation.saveTrainer, trainerController.updateTrainer);
 
 router.delete('/:id', trainerController.deleteTrainer);
 
