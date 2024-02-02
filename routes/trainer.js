@@ -4,14 +4,16 @@ const router = express.Router();
 const trainerController = require('../controllers/trainer');
 const validation = require('../middleware/validate');
 
+const { isAuthenticated } = require("../middleware/authenticate");
+
 router.get('/', trainerController.getAll);
 
 router.get('/:id', trainerController.getSingle);
 
-router.post('/', validation.saveTrainer, trainerController.createTrainer);
+router.post('/', isAuthenticated,validation.saveTrainer, trainerController.createTrainer);
 
-router.put('/:id', validation.saveTrainer, trainerController.updateTrainer);
+router.put('/:id', isAuthenticated,validation.saveTrainer, trainerController.updateTrainer);
 
-router.delete('/:id', trainerController.deleteTrainer);
+router.delete('/:id', isAuthenticated,trainerController.deleteTrainer);
 
 module.exports = router;
